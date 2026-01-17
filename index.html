@@ -8,11 +8,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-gradient: linear-gradient(135deg, #FFDEE9 0%, #B5FFFC 100%);
-            --panel-bg: rgba(255, 255, 255, 0.95);
-            --text-color: #5D4037;
+            /* 가독성을 위해 배경을 조금 더 차분하고 고급스러운 톤으로 변경합니다. */
+            --bg-gradient: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+            /* 깔끔한 화이트/그레이 럭셔리 */
+            --panel-bg: rgba(255, 255, 255, 0.98);
+            /* 거의 불투명하게 변경하여 글씨 가독성 확보 */
+            --text-color: #3e2723;
+            /* 더 진한 갈색으로 가독성 UP */
             --accent-pink: #FF80AB;
-            --accent-blue: #4DD0E1;
+            --accent-blue: #00BCD4;
+            --shadow-glass: 0 8px 32px 0 rgba(62, 39, 35, 0.15);
+            /* 그림자도 약간 진하게 */
+        }
         }
 
         body {
@@ -83,27 +90,22 @@
             cursor: grabbing;
         }
 
+
         .panel {
             position: absolute;
             background: var(--panel-bg);
-            border: 4px solid #FFF;
+            backdrop-filter: blur(20px);
+            /* 럭셔리한 유리기 효과 */
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
             border-radius: 25px;
             padding: 20px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-glass);
             z-index: 90;
             transition: all 0.3s;
         }
 
-        /* === 1. 이야기 그래프 (왼쪽 하단 고정) === */
-        .narrative-panel {
-            bottom: 30px;
-            left: 30px;
-            width: 60vw;
-            max-width: 750px;
-            height: 180px;
-            display: flex;
-            flex-direction: column;
-        }
+
 
         .panel h3 {
             font-family: 'Jua';
@@ -122,7 +124,7 @@
             width: 350px;
             display: flex;
             flex-direction: column;
-            border: 5px solid #E0F7FA;
+            border: 2px solid rgba(255, 255, 255, 0.8);
         }
 
         .chatbot-header {
@@ -139,13 +141,14 @@
             flex: 1;
             overflow-y: auto;
             padding: 15px;
-            background: #FAFAFA;
+            background: rgba(255, 255, 255, 0.5);
             border-radius: 15px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             display: flex;
             flex-direction: column;
             gap: 12px;
-            border: 2px solid #EEE;
+            border: none;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.02);
         }
 
         .msg {
@@ -193,14 +196,31 @@
 
         .input-box button {
             width: 50px;
-            background: #4DD0E1;
+            background: linear-gradient(135deg, #4DD0E1, #26C6DA);
             border: none;
             cursor: pointer;
             border-radius: 50%;
             color: white;
             font-size: 1.5rem;
-            box-shadow: 0 4px 0 #0097A7;
-            transition: 0.1s;
+            box-shadow: 0 4px 10px rgba(77, 208, 225, 0.4);
+            transition: 0.2s;
+        }
+
+        .chat-hint {
+            font-size: 0.85rem;
+            color: #8D6E63;
+            margin-top: 8px;
+            padding-left: 10px;
+            font-family: 'Gowun Dodum';
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+            opacity: 0.8;
+            cursor: pointer;
+        }
+
+        .chat-hint:hover {
+            opacity: 1;
+            color: #FF80AB;
+            text-decoration: underline;
         }
 
         /* === 3. 상세 패널 === */
@@ -283,25 +303,7 @@
             background: #E3F2FD;
         }
 
-        .chart-label {
-            font-size: 12px;
-            font-weight: bold;
-            fill: #555;
-            font-family: 'Jua';
-            text-anchor: middle;
-        }
-
-        .chart-dot {
-            fill: #FFF;
-            stroke-width: 3;
-        }
-
-        .chart-line {
-            fill: none;
-            stroke: #FF8A80;
-            stroke-width: 5;
-            stroke-linecap: round;
-        }
+        /* === 1. 이야기 그래프 삭제됨 === */
     </style>
 </head>
 
@@ -316,33 +318,8 @@
         <canvas id="mindmap-canvas"></canvas>
     </div>
 
-    <!-- 이야기 그래프 -->
-    <div class="panel narrative-panel">
-        <h3>🎢 이야기 감정 롤러코스터</h3>
-        <svg style="width:100%; height:100%;" viewBox="-20 -20 840 160">
-            <path d="M 40,80 Q 150,40 200,60 T 350,110 T 500,120 T 650,20 T 760,40" class="chart-line" />
-            <g transform="translate(40,80)">
-                <circle r="8" class="chart-dot" stroke="#FFCC80" /> <text y="-20" class="chart-label">설렘</text>
-            </g>
-            <g transform="translate(200,60)">
-                <circle r="8" class="chart-dot" stroke="#EF9A9A" /> <text y="-20" class="chart-label">사랑 약속</text>
-            </g>
-            <g transform="translate(350,110)">
-                <circle r="8" class="chart-dot" stroke="#90CAF9" /> <text y="25" class="chart-label">이별</text>
-            </g>
-            <g transform="translate(500,120)">
-                <circle r="10" class="chart-dot" stroke="#EF5350" /> <text y="28" class="chart-label" fill="#D32F2F"
-                    font-size="14">최대 위기</text>
-            </g>
-            <g transform="translate(650,20)">
-                <circle r="12" class="chart-dot" stroke="#66BB6A" /> <text y="-25" class="chart-label" fill="#388E3C"
-                    font-size="16">어사출두!</text>
-            </g>
-            <g transform="translate(760,40)">
-                <circle r="8" class="chart-dot" stroke="#FFAB91" /> <text y="25" class="chart-label">해피엔딩</text>
-            </g>
-        </svg>
-    </div>
+
+
 
     <div class="panel" id="detail-panel">
         <span id="info-type">정보</span>
@@ -362,6 +339,10 @@
         <div class="input-box">
             <input type="text" id="user-input" placeholder="질문 입력..." onkeypress="if(event.key==='Enter') send()">
             <button onclick="send()">➤</button>
+        </div>
+        <div class="chat-hint"
+            onclick="document.getElementById('user-input').value='몽룡이랑 춘향이는 어떻게 만났어?'; document.getElementById('user-input').focus();">
+            💡 예) 몽룡이랑 춘향이는 어떻게 만났어?
         </div>
     </div>
 
