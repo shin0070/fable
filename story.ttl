@@ -1,0 +1,81 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ex:   <http://example.org/chunhyang/> .
+
+# ===== 리소스(작품) =====
+ex:work/Chunhyangjeon a ex:ClassicNovel ;
+  rdfs:label "춘향전"@ko ;
+  ex:hasSetting ex:place/Namwon ;
+  ex:hasCharacter ex:person/Chunhyang, ex:person/몽룡, ex:person/변학도 ;
+  ex:hasEvent ex:event/Meeting, ex:event/LovePledge, ex:event/Separation,
+              ex:event/Oppression, ex:event/DisguiseTrial, ex:event/JusticeRestored .
+
+# ===== 장소 =====
+ex:place/Namwon a ex:Place ;
+  rdfs:label "남원"@ko .
+
+# ===== 등장인물 =====
+ex:person/Chunhyang a ex:Person ;
+  rdfs:label "성춘향"@ko ;
+  ex:loves ex:person/몽룡 ;
+  ex:resists ex:person/변학도 .
+
+ex:person/몽룡 a ex:Person ;
+  rdfs:label "이몽룡"@ko ;
+  ex:loves ex:person/Chunhyang ;
+  ex:becomes ex:role/암행어사 .
+
+ex:person/변학도 a ex:Person ;
+  rdfs:label "변학도"@ko ;
+  ex:abusesPower true ;
+  ex:targets ex:person/Chunhyang .
+
+# ===== 역할 =====
+ex:role/암행어사 a ex:Role ;
+  rdfs:label "암행어사"@ko .
+
+# ===== 사건(줄거리 흐름) =====
+ex:event/Meeting a ex:Event ;
+  rdfs:label "만남"@ko ;
+  ex:inWork ex:work/Chunhyangjeon ;
+  ex:hasParticipant ex:person/Chunhyang, ex:person/몽룡 ;
+  ex:atPlace ex:place/Namwon ;
+  ex:next ex:event/LovePledge .
+
+ex:event/LovePledge a ex:Event ;
+  rdfs:label "사랑의 맹세"@ko ;
+  ex:inWork ex:work/Chunhyangjeon ;
+  ex:hasParticipant ex:person/Chunhyang, ex:person/몽룡 ;
+  ex:next ex:event/Separation .
+
+ex:event/Separation a ex:Event ;
+  rdfs:label "이별(몽룡의 상경)"@ko ;
+  ex:inWork ex:work/Chunhyangjeon ;
+  ex:hasParticipant ex:person/몽룡, ex:person/Chunhyang ;
+  ex:next ex:event/Oppression .
+
+ex:event/Oppression a ex:Event ;
+  rdfs:label "변학도의 압박과 춘향의 절개"@ko ;
+  ex:inWork ex:work/Chunhyangjeon ;
+  ex:hasParticipant ex:person/변학도, ex:person/Chunhyang ;
+  ex:next ex:event/DisguiseTrial .
+
+ex:event/DisguiseTrial a ex:Event ;
+  rdfs:label "암행어사 출두와 재판"@ko ;
+  ex:inWork ex:work/Chunhyangjeon ;
+  ex:hasParticipant ex:person/몽룡, ex:person/변학도, ex:person/Chunhyang ;
+  ex:atPlace ex:place/Namwon ;
+  ex:next ex:event/JusticeRestored .
+
+ex:event/JusticeRestored a ex:Event ;
+  rdfs:label "권선징악과 재회"@ko ;
+  ex:inWork ex:work/Chunhyangjeon ;
+  ex:hasParticipant ex:person/몽룡, ex:person/Chunhyang ;
+  ex:resultsIn ex:outcome/PunishEvil, ex:outcome/Reunion .
+
+# ===== 결과(주제/결말 요소) =====
+ex:outcome/PunishEvil a ex:Outcome ;
+  rdfs:label "악의 처벌(권선징악)"@ko .
+
+ex:outcome/Reunion a ex:Outcome ;
+  rdfs:label "재회"@ko .
